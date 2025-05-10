@@ -1,0 +1,150 @@
+@model IEnumerable<Health_Care_MIS.Models.Registration>
+
+@{
+    ViewBag.Title = "Patient Registrations";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0">
+            <i class="fas fa-user-plus text-primary me-2"></i>
+            Patient Registrations
+        </h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus text-white me-2"></i>
+            Register New Patient
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>
+                                <i class="fas fa-user text-primary me-2"></i>
+                                Patient Name
+                            </th>
+                            <th>
+                                <i class="fas fa-calendar text-info me-2"></i>
+                                @Html.DisplayNameFor(model => model.Date_of_birth)
+                            </th>
+                            <th>
+                                <i class="fas fa-venus-mars text-success me-2"></i>
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </th>
+                            <th>
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                Contact
+                            </th>
+                            <th>
+                                <i class="fas fa-tint text-danger me-2"></i>
+                                @Html.DisplayNameFor(model => model.BloodType)
+                            </th>
+                            <th>
+                                <i class="fas fa-shield-alt text-warning me-2"></i>
+                                Insurance
+                            </th>
+                            <th class="text-end">
+                                <i class="fas fa-cog text-secondary me-2"></i>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-circle bg-primary text-white me-2">
+                                            @(item?.Firstname?[0])@(item?.Lastname?[0])
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">@Html.DisplayFor(modelItem => item.Firstname) @Html.DisplayFor(modelItem => item.Lastname)</div>
+                                            <small class="text-muted">@Html.DisplayFor(modelItem => item.SignUp.email)</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Date_of_birth)</td>
+                                <td>
+                                    <span class="badge bg-success">@Html.DisplayFor(modelItem => item.Gender)</span>
+                                </td>
+                                <td>
+                                    <div>@Html.DisplayFor(modelItem => item.ContactInfo)</div>
+                                    <small class="text-muted">@Html.DisplayFor(modelItem => item.Address)</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.BloodType)</span>
+                                </td>
+                                <td>
+                                    <span class="text-truncate" style="max-width: 150px;">
+                                        @Html.DisplayFor(modelItem => item.InsuranceInfo)
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="@Url.Action("Details", new { id = item?.PatientID })" class="btn btn-sm btn-outline-info" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit", new { id = item?.PatientID })" class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item?.PatientID })" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .table th {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .badge {
+            font-weight: 500;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Auto-hide alerts after 3 seconds
+            setTimeout(function () {
+                $('.alert').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+}

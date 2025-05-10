@@ -1,0 +1,177 @@
+@model Health_Care_MIS.Models.Registration
+
+@{
+    ViewBag.Title = "Register New Patient";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="fas fa-user-plus text-primary me-2"></i>Register New Patient
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user text-primary me-2"></i>First Name
+                                    </label>
+                                    @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter first name" } })
+                                    @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user text-primary me-2"></i>Last Name
+                                    </label>
+                                    @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter last name" } })
+                                    @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-calendar text-info me-2"></i>Date of Birth
+                                    </label>
+                                    @Html.EditorFor(model => model.Date_of_birth, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.Date_of_birth, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-venus-mars text-success me-2"></i>Gender
+                                    </label>
+                                    @Html.DropDownListFor(model => model.Gender, new SelectList(new[] { "Male", "Female", "Other" }), "-- Select Gender --", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-phone text-primary me-2"></i>Contact Info
+                                    </label>
+                                    @Html.EditorFor(model => model.ContactInfo, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter contact number" } })
+                                    @Html.ValidationMessageFor(model => model.ContactInfo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-map-marker-alt text-danger me-2"></i>Address
+                                    </label>
+                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter address" } })
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-tint text-danger me-2"></i>Blood Type
+                                    </label>
+                                    @Html.DropDownListFor(model => model.BloodType, new SelectList(new[] { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }), "-- Select Blood Type --", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.BloodType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-shield-alt text-warning me-2"></i>Insurance Info
+                                    </label>
+                                    @Html.EditorFor(model => model.InsuranceInfo, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter insurance details" } })
+                                    @Html.ValidationMessageFor(model => model.InsuranceInfo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-envelope text-primary me-2"></i>Patient Email
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="email" name="UserEmail" id="UserEmail" class="form-control" value="@User.Identity.Name" />
+                                    @Html.HiddenFor(model => model.email)
+                                </div>
+                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-12">
+                                <hr class="my-4" />
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-save text-white me-2"></i>Register Patient
+                                    </button>
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-times text-white me-2"></i>Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle text-primary me-2"></i>Registration Guidelines
+                    </h5>
+                    <p class="card-text">Please ensure all required information is filled accurately:</p>
+                    <ul class="text-muted mb-0">
+                        <li><i class="fas fa-check text-success me-2"></i>Enter complete name as per ID</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Provide accurate contact details</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Select correct blood type</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Include insurance information if available</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Verify all details before submission</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Initialize select2 for better dropdown experience
+            if ($.fn.select2) {
+                $('.form-select').select2({
+                    theme: 'bootstrap-5'
+                });
+            }
+
+            // Handle form submission to ensure the email field is checked
+            $('form').on('submit', function (e) {
+                var email = $('#UserEmail').val();
+                if (!email || email.trim() === '') {
+                    alert('Please enter a valid email address');
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
+}

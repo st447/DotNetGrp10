@@ -1,0 +1,134 @@
+@model Health_Care_MIS.Models.Registration
+
+@{
+    ViewBag.Title = "Patient Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center pb-0">
+                    <div>
+                        <h3 class="mb-0">Patient Details</h3>
+                        <p class="text-sm mb-0">View detailed information about the patient</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.PatientID }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Personal Information -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-user text-primary me-2"></i>Personal Information
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <div class="avatar-circle bg-primary text-white me-3" style="width: 60px; height: 60px; font-size: 24px;">
+                                            @(Model.Firstname?[0])@(Model.Lastname?[0])
+                                        </div>
+                                        <div>
+                                            <h4 class="mb-1">@Html.DisplayFor(model => model.Firstname) @Html.DisplayFor(model => model.Lastname)</h4>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-envelope me-2"></i>@Html.DisplayFor(model => model.SignUp.email)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <label class="text-muted small">Date of Birth</label>
+                                            <p class="mb-0">@Html.DisplayFor(model => model.Date_of_birth)</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="text-muted small">Gender</label>
+                                            <p class="mb-0"><span class="badge bg-success">@Html.DisplayFor(model => model.Gender)</span></p>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="text-muted small">Blood Type</label>
+                                            <p class="mb-0"><span class="badge bg-danger">@Html.DisplayFor(model => model.BloodType)</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-address-card text-info me-2"></i>Contact Information
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="text-muted small">Phone Number</label>
+                                            <p class="mb-0">@Html.DisplayFor(model => model.ContactInfo)</p>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="text-muted small">Address</label>
+                                            <p class="mb-0">@Html.DisplayFor(model => model.Address)</p>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="text-muted small">Emergency Contact</label>
+                                            <p class="mb-0">@Html.DisplayFor(model => model.EmergencyContact)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Insurance Information -->
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-shield-alt text-warning me-2"></i>Insurance Information
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="text-muted small">Insurance Details</label>
+                                            <p class="mb-0">@Html.DisplayFor(model => model.InsuranceInfo)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border: 0;
+        }
+        .card-header {
+            border-bottom: 1px solid rgba(0,0,0,.125);
+            background-color: #f8f9fa;
+        }
+    </style>
+}

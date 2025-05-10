@@ -1,0 +1,111 @@
+@model Health_Care_MIS.Models.Registration
+
+@{
+    ViewBag.Title = "Delete Patient";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-danger">
+                <i class="fas fa-exclamation-triangle text-danger me-2"></i>Delete Patient Record
+            </h2>
+            <p class="text-muted mt-2">
+                Are you sure you want to delete this patient record? This action cannot be undone.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-user text-primary me-2"></i>Personal Information
+                            </h6>
+                            <p class="mb-2">
+                                <strong>Name:</strong> @Model.Firstname @Model.Lastname
+                            </p>
+                            <p class="mb-2">
+                                <strong>Date of Birth:</strong> @Model.Date_of_birth?.ToString("MMMM dd, yyyy")
+                            </p>
+                            <p class="mb-2">
+                                <strong>Gender:</strong> <span class="badge bg-success">@Model.Gender</span>
+                            </p>
+                            <p class="mb-2">
+                                <strong>Blood Type:</strong> <span class="badge bg-danger">@Model.BloodType</span>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-address-card text-info me-2"></i>Contact Information
+                            </h6>
+                            <p class="mb-2">
+                                <strong>Phone:</strong> @Model.ContactInfo
+                            </p>
+                            <p class="mb-2">
+                                <strong>Address:</strong> @Model.Address
+                            </p>
+                            <p class="mb-2">
+                                <strong>Email:</strong> @(Model.SignUp?.email ?? "Not provided")
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-shield-alt text-warning me-2"></i>Insurance Information
+                            </h6>
+                            <p class="mb-2">
+                                <strong>Insurance Details:</strong> @(Model.InsuranceInfo ?? "Not provided")
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-ambulance text-danger me-2"></i>Emergency Contact
+                            </h6>
+                            <p class="mb-2">
+                                <strong>Emergency Contact:</strong> @(Model.EmergencyContact ?? "Not provided")
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash text-white me-2"></i>Delete
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-times text-white me-2"></i>Cancel
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle text-danger me-2"></i>Important Notice
+                    </h5>
+                    <p class="card-text">Deleting this patient record will:</p>
+                    <ul class="text-muted mb-0">
+                        <li><i class="fas fa-exclamation-circle text-danger me-2"></i>Remove all patient information</li>
+                        <li><i class="fas fa-exclamation-circle text-danger me-2"></i>Delete associated medical records</li>
+                        <li><i class="fas fa-exclamation-circle text-danger me-2"></i>Remove prescription history</li>
+                        <li><i class="fas fa-exclamation-circle text-danger me-2"></i>Cannot be recovered once deleted</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
