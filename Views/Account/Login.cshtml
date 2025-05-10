@@ -1,0 +1,128 @@
+@model Health_Care_MIS.Models.LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h4 class="mb-0">
+                        <i class="fas fa-sign-in-alt me-2"></i>Welcome Back
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-floating", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                @Html.ValidationSummary(true, "", new { @class = "mb-0" })
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-floating mb-3">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "name@example.com" })
+                            @Html.LabelFor(m => m.Email)
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                            @Html.LabelFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-check mb-3">
+                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                            @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Log in
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted">
+                                Don't have an account? 
+                                @Html.ActionLink("Register", "Register", "Account", null, new { @class = "text-primary text-decoration-none" })
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            background: linear-gradient(87deg, #f8f9fa 0, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 1rem;
+        }
+
+        .card-header {
+            border-top-left-radius: 1rem !important;
+            border-top-right-radius: 1rem !important;
+            border-bottom: 0;
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+        }
+
+        .form-floating > .form-control {
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: #5e72e4;
+            box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+        }
+
+        .form-check-input:checked {
+            background-color: #5e72e4;
+            border-color: #5e72e4;
+        }
+
+        .btn-primary {
+            background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .alert {
+            border: 0;
+            border-radius: 0.5rem;
+        }
+
+        .alert-danger {
+            background-color: #fff5f5;
+            color: #e53e3e;
+        }
+    </style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,250 @@
+@model Health_Care_MIS.Models.ProfileViewModel
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row">
+        <div class="col-lg-4 col-xl-3 mb-4">
+            <!-- Profile Summary Card -->
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="profile-avatar mb-4">
+                        <div class="avatar-circle">
+                            <i class="fas fa-user-circle fa-4x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-1">@Model.Username</h5>
+                    <p class="text-muted small mb-3">@Model.Role</p>
+                    <div class="profile-stats">
+                        <div class="badge bg-primary-soft text-primary mb-2">
+                            <i class="fas fa-envelope me-2"></i>@Model.Email
+                        </div>
+                        @if (Model.LastLoginDate.HasValue)
+                        {
+                            <div class="badge bg-info-soft text-info">
+                                <i class="fas fa-clock me-2"></i>Last Login: @Model.LastLoginDate.Value.ToString("MMM dd, yyyy")
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-xl-9">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white border-0 pt-4 pb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-cog text-white me-2"></i>
+                            <h4 class="mb-0 text-white">Settings</h4>
+                        </div>
+                        <div class="badge bg-white bg-opacity-25 text-white border-0">
+                            <i class="fas fa-shield-alt me-2"></i>Account Active
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success-soft alert-dismissible fade show border-0" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger-soft border-0 mb-4" })
+
+                        <!-- Account Information Section -->
+                        <div class="mb-5">
+                            <h5 class="text-primary mb-4">
+                                <i class="fas fa-info-circle me-2"></i>Account Information
+                            </h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Username, new { @class = "form-label fw-bold" })
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control bg-light", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Role, new { @class = "form-label fw-bold" })
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">
+                                                <i class="fas fa-user-tag"></i>
+                                            </span>
+                                            @Html.TextBoxFor(m => m.Role, new { @class = "form-control bg-light", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Email, new { @class = "form-label fw-bold" })
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-envelope"></i>
+                                            </span>
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small mt-1" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Change Password Section -->
+                        <div class="mb-5">
+                            <h5 class="text-primary mb-4">
+                                <i class="fas fa-key me-2"></i>Change Password
+                            </h5>
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.CurrentPassword, new { @class = "form-label fw-bold" })
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            @Html.PasswordFor(m => m.CurrentPassword, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.CurrentPassword, "", new { @class = "text-danger small mt-1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.NewPassword, new { @class = "form-label fw-bold" })
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-key"></i>
+                                            </span>
+                                            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.NewPassword, "", new { @class = "text-danger small mt-1" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label fw-bold" })
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-key"></i>
+                                            </span>
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger small mt-1" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .bg-primary-soft {
+            background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+        }
+
+        .bg-success-soft {
+            background-color: rgba(var(--bs-success-rgb), 0.1) !important;
+        }
+
+        .bg-info-soft {
+            background-color: rgba(var(--bs-info-rgb), 0.1) !important;
+        }
+
+        .alert-success-soft {
+            background-color: rgba(var(--bs-success-rgb), 0.1) !important;
+            color: var(--bs-success);
+        }
+
+        .alert-danger-soft {
+            background-color: rgba(var(--bs-danger-rgb), 0.1) !important;
+            color: var(--bs-danger);
+        }
+
+        .profile-avatar {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(var(--bs-primary-rgb), 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-right: none;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+        }
+
+        .input-group .form-control:focus {
+            border-color: #dee2e6;
+            box-shadow: none;
+        }
+
+        .input-group .form-control:focus + .input-group-text {
+            border-color: #dee2e6;
+        }
+
+        .badge {
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function () {
+            $('.alert').alert('close');
+        }, 5000);
+
+        // Add animation to save button on click
+        $('button[type="submit"]').on('click', function() {
+            $(this).addClass('disabled').html('<i class="fas fa-circle-notch fa-spin me-2"></i>Saving...');
+        });
+
+        // Remove readonly background color on focus
+        $('.form-control[readonly]').on('focus', function() {
+            $(this).addClass('bg-light');
+        });
+    </script>
+}
