@@ -1,1 +1,1 @@
-# DotNetGrp10
+# SmartClinic project(grp 10)
