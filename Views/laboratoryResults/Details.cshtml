@@ -1,0 +1,115 @@
+@model Health_Care_MIS.Models.laboratoryResult
+
+@{
+    ViewBag.Title = "Laboratory Result Details";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="fas fa-file-medical-alt me-2"></i>Laboratory Result Details
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-flask me-2"></i>Test Type
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.laboratory?.testType ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-user me-2"></i>Patient
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.laboratory?.Registration != null ? $"{Model.laboratory.Registration.Firstname} {Model.laboratory.Registration.Lastname}" : "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-calendar me-2"></i>Result Date
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.date?.ToString("MMM dd, yyyy") ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-user-md me-2"></i>Staff
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.laboratory?.Staff1 != null ? $"{Model.laboratory.Staff1.Firstname} {Model.laboratory.Staff1.LastName}" : "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-file-medical-alt me-2"></i>Results
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Results ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-comment me-2"></i>Notes
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Notes ?? "N/A")</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to List
+                        </a>
+                        @if (User.IsInRole("doctor") || User.IsInRole("admin"))
+                        {
+                            <a href="@Url.Action("Edit", new { id = Model.id })" class="btn btn-primary ms-2">
+                                <i class="fas fa-edit me-2"></i>Edit
+                            </a>
+                            <a href="@Url.Action("Download", new { id = Model.id })" class="btn btn-info ms-2">
+                                <i class="fas fa-download me-2"></i>Download
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>Information
+                    </h5>
+                    <p class="card-text">This page displays the complete details of the laboratory result.</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        You can edit this result by clicking the Edit button, or return to the list to view other results.
+                    </div>
+                    <hr />
+                    <div class="text-muted">
+                        <small>
+                            <i class="fas fa-clock me-2"></i>Last updated: @(Model.date?.ToString("MMM dd, yyyy") ?? "N/A")
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

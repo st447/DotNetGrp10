@@ -1,0 +1,116 @@
+@model Health_Care_MIS.Models.laboratoryResult
+
+@{
+    ViewBag.Title = "New Laboratory Result";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="fas fa-microscope me-2"></i>New Laboratory Result
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row g-4">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-flask me-2"></i>Laboratory Test
+                                    </label>
+                                    @Html.DropDownList("testId", null, "-- Select Test --", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.testId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-calendar me-2"></i>Result Date
+                                    </label>
+                                    @Html.EditorFor(model => model.date, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-file-medical-alt me-2"></i>Results
+                                    </label>
+                                    @Html.EditorFor(model => model.Results, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Results, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-comment me-2"></i>Notes
+                                    </label>
+                                    @Html.TextAreaFor(model => model.Notes, new { @class = "form-control", rows = "4" })
+                                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group d-flex justify-content-end gap-2">
+                                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Create Result
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>Help
+                    </h5>
+                    <p class="card-text">Fill in the details to create a new laboratory result:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check me-2"></i>Select the laboratory test</li>
+                        <li><i class="fas fa-check me-2"></i>Enter the test results</li>
+                        <li><i class="fas fa-check me-2"></i>Set the result date</li>
+                        <li><i class="fas fa-check me-2"></i>Add any relevant notes</li>
+                    </ul>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Make sure to provide clear and accurate results for proper patient care.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Initialize Select2 for dropdowns
+            $('select').select2({
+                theme: 'bootstrap-5'
+            });
+        });
+    </script>
+}

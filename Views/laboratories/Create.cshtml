@@ -1,0 +1,112 @@
+@model Health_Care_MIS.Models.laboratory
+
+@{
+    ViewBag.Title = "New Laboratory Test";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="fas fa-flask me-2"></i>New Laboratory Test
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row g-4">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user me-2"></i>Patient
+                                    </label>
+                                    @Html.DropDownListFor(model => model.patient, (SelectList)ViewBag.patient, "-- Select Patient --", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.patient, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user-md me-2"></i>Staff
+                                    </label>
+                                    @Html.DropDownListFor(model => model.staff, (SelectList)ViewBag.staff, "-- Select Staff --", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.staff, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-vial me-2"></i>Test Type
+                                    </label>
+                                    @Html.EditorFor(model => model.testType, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.testType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-calendar me-2"></i>Order Date
+                                    </label>
+                                    @Html.EditorFor(model => model.orderDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.orderDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group d-flex justify-content-end gap-2">
+                                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Create Test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>Help
+                    </h5>
+                    <p class="card-text">Fill in the details to create a new laboratory test:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check me-2"></i>Select a patient from the list</li>
+                        <li><i class="fas fa-check me-2"></i>Choose the responsible staff member</li>
+                        <li><i class="fas fa-check me-2"></i>Specify the type of test</li>
+                        <li><i class="fas fa-check me-2"></i>Set the order date</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Initialize Select2 for dropdowns
+            $('select').select2({
+                theme: 'bootstrap-5'
+            });
+        });
+    </script>
+}

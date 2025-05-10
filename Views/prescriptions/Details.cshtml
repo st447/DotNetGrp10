@@ -1,0 +1,135 @@
+@model Health_Care_MIS.Models.prescription
+
+@{
+    ViewBag.Title = "Prescription Details";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="fas fa-prescription me-2"></i>Prescription Details
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-pills text-primary me-2"></i>Medication
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Medication1?.name ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-user text-info me-2"></i>Patient
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Registration != null ? $"{Model.Registration.Firstname} {Model.Registration.Lastname}" : "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-user-md text-success me-2"></i>Doctor
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Staff1 != null ? $"Dr. {Model.Staff1.Firstname} {Model.Staff1.LastName}" : "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-prescription-bottle text-warning me-2"></i>Dosage
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Dosage ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-clock text-info me-2"></i>Frequency
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.frequency ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-calendar-alt text-primary me-2"></i>Duration
+                                </label>
+                                <p class="mb-3 fs-5">@(Model.Duration?.ToString() ?? "N/A")</p>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="detail-group">
+                                <label class="text-muted mb-1">
+                                    <i class="fas fa-stethoscope text-success me-2"></i>Consultation Date
+                                </label>
+                                <p class="mb-3 fs-5">
+                                    @if (Model.conultation.HasValue)
+                                    {
+                                        @Model.conultation.Value.ToString("MMMM dd, yyyy")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Not Specified</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <hr />
+                            <div class="d-flex gap-2">
+                                @if (User.IsInRole("doctor") || User.IsInRole("admin"))
+                                {
+                                    <a href="@Url.Action("Edit", new { id = Model.id })" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-edit text-white me-2"></i>Edit
+                                    </a>
+                                }
+                                <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-arrow-left text-white me-2"></i>Back to List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>Prescription Information
+                    </h5>
+                    <p class="card-text">
+                        This prescription was issued by Dr. @(Model.Staff1?.Firstname ?? "Unknown") @(Model.Staff1?.LastName ?? "") 
+                        @if (Model.conultation.HasValue)
+                        {
+                            <text>on @Model.conultation.Value.ToString("MMMM dd, yyyy")</text>
+                        }
+                    </p>
+                    <hr />
+                    <div class="text-muted">
+                        <small>
+                            <i class="fas fa-clock me-2"></i>Last Updated: @DateTime.Now.ToString("MMM dd, yyyy")
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

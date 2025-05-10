@@ -1,0 +1,146 @@
+@model IEnumerable<Health_Care_MIS.Models.prescription>
+
+@{
+    ViewBag.Title = "Prescriptions";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2 class="text-primary">
+                <i class="fas fa-prescription me-2"></i>Prescriptions
+            </h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="@Url.Action("Create")" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-2"></i>New Prescription
+            </a>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>
+                                <i class="fas fa-pills me-2"></i>Medication
+                            </th>
+                            <th>
+                                <i class="fas fa-user me-2"></i>Patient
+                            </th>
+                            <th>
+                                <i class="fas fa-user-md me-2"></i>Doctor
+                            </th>
+                            <th>
+                                <i class="fas fa-prescription-bottle me-2"></i>Dosage
+                            </th>
+                            <th>
+                                <i class="fas fa-clock me-2"></i>Frequency
+                            </th>
+                            <th>
+                                <i class="fas fa-calendar-alt me-2"></i>Duration
+                            </th>
+                            <th>
+                                <i class="fas fa-stethoscope me-2"></i>Consultation
+                            </th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@(item.Medication1?.name ?? "N/A")</strong>
+                                    </td>
+                                    <td>
+                                        @(item.Registration != null ? $"{item.Registration.Firstname} {item.Registration.Lastname}" : "N/A")
+                                    </td>
+                                    <td>
+                                        @(item.Staff1 != null ? $"Dr. {item.Staff1.Firstname} {item.Staff1.LastName}" : "N/A")
+                                    </td>
+                                    <td>@(item.Dosage ?? "N/A")</td>
+                                    <td>@(item.frequency ?? "N/A")</td>
+                                    <td>@(item.Duration?.ToString() ?? "N/A")</td>
+                                    <td>
+                                        @if (item.conultation.HasValue)
+                                        {
+                                            @item.conultation.Value.ToString("MMM dd, yyyy")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Not Specified</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="@Url.Action("Details", new { id = item.id })" class="btn btn-info">
+                                                <i class="fas fa-eye text-white"></i>
+                                            </a>
+                                            @if (User.IsInRole("doctor") || User.IsInRole("admin"))
+                                            {
+                                                <a href="@Url.Action("Edit", new { id = item.id })" class="btn btn-primary">
+                                                    <i class="fas fa-edit text-white"></i>
+                                                </a>
+                                                <a href="@Url.Action("Delete", new { id = item.id })" class="btn btn-danger">
+                                                    <i class="fas fa-trash-alt text-white"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <i class="fas fa-info-circle me-2"></i>No prescriptions found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // Auto-hide alerts after 3 seconds
+            setTimeout(function () {
+                $('.alert').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+}

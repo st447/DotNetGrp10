@@ -1,0 +1,158 @@
+@model Health_Care_MIS.Models.prescription
+
+@{
+    ViewBag.Title = "Edit Prescription";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary">
+                <i class="fas fa-prescription me-2"></i>Edit Prescription
+            </h2>
+        </div>
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.id)
+
+                        <div class="row g-4">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user text-info me-2"></i>Patient
+                                    </label>
+                                    <p class="form-control-plaintext">
+                                        @(Model.Registration != null ? $"{Model.Registration.Firstname} {Model.Registration.Lastname}" : "N/A")
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-pills text-primary me-2"></i>Medication
+                                    </label>
+                                    @Html.DropDownList("medication", null, "-- Select Medication --", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.medication, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-prescription-bottle text-warning me-2"></i>Dosage
+                                    </label>
+                                    @Html.EditorFor(model => model.Dosage, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter dosage" } })
+                                    @Html.ValidationMessageFor(model => model.Dosage, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-clock text-info me-2"></i>Frequency
+                                    </label>
+                                    @Html.EditorFor(model => model.frequency, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter frequency" } })
+                                    @Html.ValidationMessageFor(model => model.frequency, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-calendar-alt text-primary me-2"></i>Duration (Days)
+                                    </label>
+                                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1", placeholder = "Enter duration in days" } })
+                                    @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-stethoscope text-success me-2"></i>Consultation Date
+                                    </label>
+                                    @Html.EditorFor(model => model.conultation, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.conultation, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <hr />
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-save text-white me-2"></i>Save Changes
+                                    </button>
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-times text-white me-2"></i>Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>Prescription Details
+                    </h5>
+                    <p class="card-text">
+                        You are editing a prescription for patient <strong>@(Model.Registration != null ? $"{Model.Registration.Firstname} {Model.Registration.Lastname}" : "N/A")</strong>.
+                        This prescription was created by Dr. @(Model.Staff1?.Firstname ?? "Unknown") @(Model.Staff1?.LastName ?? "")
+                        @if (Model.conultation.HasValue)
+                        {
+                            <text>on @Model.conultation.Value.ToString("MMMM dd, yyyy")</text>
+                        }
+                    </p>
+                    <hr />
+                    <div class="text-muted">
+                        <small>
+                            <i class="fas fa-exclamation-circle me-2"></i>Please review all changes carefully before saving.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Initialize select2 for better dropdown experience
+            if ($.fn.select2) {
+                $('select').select2({
+                    theme: 'bootstrap-5'
+                });
+            }
+
+            // Auto-hide alerts after 3 seconds
+            setTimeout(function () {
+                $('.alert').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+}

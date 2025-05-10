@@ -1,0 +1,189 @@
+@model Health_Care_MIS.Models.DoctorDashboardViewModel
+
+@{
+    ViewBag.Title = "Doctor Dashboard";
+    var staffName = Model?.Staff != null ? $"Dr. {Model.Staff.Firstname} {Model.Staff.LastName}" : "Welcome";
+}
+
+@functions {
+    public string GetStringFromBytes(byte[] bytes)
+    {
+        if (bytes == null || bytes.Length == 0) return "N/A";
+        try
+        {
+            return System.Text.Encoding.UTF8.GetString(bytes).Trim();
+        }
+        catch
+        {
+            return "N/A";
+        }
+    }
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <h2 class="text-primary fw-bold">@staffName</h2>
+        </div>
+        <div class="col-md-6">
+            @using (Html.BeginForm("SelectDoctor", "Doctor", FormMethod.Post, new { id = "staffForm", @class = "form-inline justify-content-end" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.DropDownList("StaffId", ViewBag.StaffNames as SelectList, new { @class = "form-select custom-select mr-2", onchange = "document.getElementById('staffForm').submit();" })
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-calendar-check text-primary fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-subtitle mb-1 text-muted">Today's Appointments</h6>
+                            <h2 class="card-title mb-0">@(Model?.TodaysAppointments?.Count() ?? 0)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-user-clock text-success fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-subtitle mb-1 text-muted">Pending Appointments</h6>
+                            <h2 class="card-title mb-0">@(Model?.PendingAppointments ?? 0)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-file-medical text-info fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-subtitle mb-1 text-muted">Total Prescriptions</h6>
+                            <h2 class="card-title mb-0">@(Model?.RecentPrescriptions?.Count() ?? 0)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-users text-warning fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="card-subtitle mb-1 text-muted">Total Patients</h6>
+                            <h2 class="card-title mb-0">@(Model?.TotalPatients ?? 0)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="card-title mb-0">Quick Links</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="d-grid">
+                                <a href="@Url.Action("Create", "Appointments")" class="btn btn-outline-primary btn-lg hover-card">
+                                    <i class="fas fa-calendar-plus mb-2"></i>
+                                    <br>New Appointment
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-grid">
+                                <a href="@Url.Action("Create", "Prescriptions")" class="btn btn-outline-success btn-lg hover-card">
+                                    <i class="fas fa-prescription mb-2"></i>
+                                    <br>New Prescription
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-grid">
+                                <a href="@Url.Action("Index", "Registrations/Index")" class="btn btn-outline-info btn-lg hover-card">
+                                    <i class="fas fa-user-injured mb-2"></i>
+                                    <br>View Patients
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-select').select2({
+                theme: 'bootstrap-5',
+                width: '100%'
+            });
+        });
+    </script>
+}
+
+<style>
+    .hover-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .btn-lg {
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .btn-lg i {
+        font-size: 2rem;
+    }
+
+    .card {
+        border-radius: 0.5rem;
+    }
+
+    .card-header {
+        border-top-left-radius: 0.5rem !important;
+        border-top-right-radius: 0.5rem !important;
+    }
+</style>

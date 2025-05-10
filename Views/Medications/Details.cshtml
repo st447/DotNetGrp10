@@ -1,0 +1,74 @@
+@model Health_Care_MIS.Models.Medication
+
+@{
+    ViewBag.Title = "Medication Details";
+}
+
+<div class="content-section">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-pills me-2"></i>
+                            Medication Details
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="p-3 bg-light rounded mb-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="mb-3">
+                                        <label class="text-muted mb-1">Name</label>
+                                        <p class="mb-0">
+                                            <i class="fas fa-prescription-bottle me-2"></i>
+                                            @Model.name
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="text-muted mb-1">Type</label>
+                                        <p class="mb-0">
+                                            <i class="fas fa-tag me-2"></i>
+                                            <span class="badge bg-info">
+                                                @(string.IsNullOrEmpty(Model.type) ? "Not Specified" : Model.type)
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="mb-3">
+                                        <label class="text-muted mb-1">Price</label>
+                                        <p class="mb-0">
+                                            <i class="fas fa-dollar-sign me-2"></i>
+                                            <span class="text-success fw-bold">
+                                                $@(((decimal)Model.price).ToString("N2"))
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back to List
+                            </a>
+                            <div>
+                                <a href="@Url.Action("Edit", new { id = Model.id })" class="btn btn-primary me-2">
+                                    <i class="fas fa-edit me-2"></i>
+                                    Edit
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = Model.id })" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt me-2"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
