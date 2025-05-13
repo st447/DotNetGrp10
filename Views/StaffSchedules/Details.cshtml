@@ -1,0 +1,134 @@
+@model Health_Care_MIS.Models.StaffSchedule
+
+@{
+    ViewBag.Title = "Staff Schedule Details";
+}
+
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0">
+            <i class="fas fa-calendar-day me-2"></i>
+            Staff Schedule Details
+        </h2>
+        <div>
+            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary me-2">
+                <i class="fas fa-edit me-2"></i>Edit
+            </a>
+            <a href="@Url.Action("Index")" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Staff Information Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-user-md me-2"></i>
+                        Staff Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="text-muted small">Staff Name</label>
+                        <p class="h5">@(Model.Staff1?.Firstname + " " + Model.Staff1?.LastName)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Details Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-clock me-2"></i>
+                        Schedule Details
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Shift Start</label>
+                            <p class="h5">@(Model.ShiftStart?.ToString(@"hh\:mm") ?? "Not set")</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="text-muted small">Shift End</label>
+                            <p class="h5">@(Model.ShifEcnd?.ToString(@"hh\:mm") ?? "Not set")</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="text-muted small">Shift Duration</label>
+                        <p class="h5">
+                            @if (Model.ShifEcnd.HasValue && Model.ShiftStart.HasValue)
+                            {
+                                var duration = Model.ShifEcnd.Value - Model.ShiftStart.Value;
+                                <span class="badge bg-success">@duration.TotalHours.ToString("F1") hours</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Not available</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-tasks me-2"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-2">
+                        <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-outline-primary">
+                            <i class="fas fa-edit me-2"></i>Edit Schedule
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = Model.Id })" class="btn btn-outline-danger">
+                            <i class="fas fa-trash me-2"></i>Delete Schedule
+                        </a>
+                        <a href="@Url.Action("Details", "Staffs", new { id = Model.Staff1 != null ? Model.Staff1.StaffId : 0 })" class="btn btn-outline-info">
+                            <i class="fas fa-user me-2"></i>View Staff Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .content-section {
+            padding: 20px;
+        }
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .card-header {
+            border-bottom: 0;
+        }
+        label.text-muted {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .h5, .h6 {
+            margin-bottom: 0;
+        }
+        .badge {
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+}

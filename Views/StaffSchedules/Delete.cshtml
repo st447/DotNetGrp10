@@ -1,0 +1,72 @@
+@model Health_Care_MIS.Models.StaffSchedule
+
+@{
+    ViewBag.Title = "Delete Staff Schedule";
+}
+
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-danger mb-0">
+            <i class="fas fa-calendar-times me-2"></i>
+            Delete Staff Schedule
+        </h2>
+        <a href="@Url.Action("Index")" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>Back to List
+        </a>
+    </div>
+
+    <div class="alert alert-danger mb-4">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        Are you sure you want to delete this staff schedule? This action cannot be undone.
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h6 class="text-muted mb-1">Staff Member</h6>
+                    <p class="mb-0">@(Model.Staff1?.Firstname + " " + Model.Staff1?.LastName)</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <h6 class="text-muted mb-1">Shift Start Time</h6>
+                    <p class="mb-0">@(Model.ShiftStart?.ToString(@"hh\:mm") ?? "Not set")</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <h6 class="text-muted mb-1">Shift End Time</h6>
+                    <p class="mb-0">@(Model.ShifEcnd?.ToString(@"hh\:mm") ?? "Not set")</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <h6 class="text-muted mb-1">Duration</h6>
+                    <p class="mb-0">@(Model.ShifEcnd.HasValue && Model.ShiftStart.HasValue ? (Model.ShifEcnd.Value - Model.ShiftStart.Value).TotalHours.ToString("F1") + " hours" : "Not available")</p>
+                </div>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Delete Schedule
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .content-section {
+            padding: 20px;
+        }
+        h6 {
+            font-size: 0.875rem;
+        }
+        p {
+            font-size: 1rem;
+        }
+    </style>
+}

@@ -1,0 +1,78 @@
+@model IEnumerable<Health_Care_MIS.Models.StaffSchedule>
+
+@{
+    ViewBag.Title = "Staff Schedules";
+}
+
+<div class="content-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0">
+            <i class="fas fa-calendar-alt me-2"></i>
+            Staff Schedules
+        </h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Add New Schedule
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Staff Name</th>
+                            <th>Shift Start</th>
+                            <th>Shift End</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.Staff1?.Firstname + " " + item.Staff1?.LastName)</td>
+                                <td>@(item.ShiftStart?.ToString(@"hh\:mm") ?? "Not set")</td>
+                                <td>@(item.ShifEcnd?.ToString(@"hh\:mm") ?? "Not set")</td>
+                                <td class="text-end">
+                                    <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-outline-primary me-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-sm btn-outline-info me-2">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .content-section {
+            padding: 20px;
+        }
+        .table th {
+            font-weight: 600;
+        }
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+}
