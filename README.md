@@ -1,4 +1,4 @@
-# SmartClinic project(grp 10)
+# SmartClinic project Description. (grp 10)
 
 The Smart Clinic Management System is a comprehensive web-based solution designed to address critical operational challenges in healthcare facilities, including inefficient patient data management, long waiting times, manual inventory tracking, poor inter-departmental communication, and complex billing processes. By centralizing all healthcare operations into one integrated platform, the system transforms medical facility management through automation, real-time insights, and streamlined workflows that enhance both operational efficiency and patient care quality.
 
